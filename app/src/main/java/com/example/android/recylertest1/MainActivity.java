@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(MainActivity.this, add_item_layout.class);
+            Intent intent = new Intent(MainActivity.this, AddItemActivity.class);
             startActivityForResult(intent, LAUNCH_SECOND_ACTIVITY);
-//            startActivity(new Intent(MainActivity.this, add_item_layout.class));
+//            startActivity(new Intent(MainActivity.this, AddItemActivity.class));
 //            contactList.add(new Contact("omar" , "" + random.nextInt()));
 //            contactAdapter.notifyDataSetChanged();
         }

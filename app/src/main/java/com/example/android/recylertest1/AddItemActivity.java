@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class add_item_layout extends AppCompatActivity {
+public class AddItemActivity extends AppCompatActivity {
 
     EditText edName, edNumber;
     String name, number;
