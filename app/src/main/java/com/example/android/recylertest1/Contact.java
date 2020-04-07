@@ -51,4 +51,7 @@ public class Contact implements Serializable {
             return index=0;
         }
     }
+    public void getItelClickedPosition(){
+
+    }
 }

@@ -14,7 +14,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    final int LAUNCH_SECOND_ACTIVITY = 1;
+
+    final int ADD_REQUEST_CODE = 1;
 
     FloatingActionButton btnFloatingAction;
     RecyclerView recyclerView;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(MainActivity.this, AddItemActivity.class);
-            startActivityForResult(intent, LAUNCH_SECOND_ACTIVITY);
+            startActivityForResult(intent, ADD_REQUEST_CODE);
 //            startActivity(new Intent(MainActivity.this, AddItemActivity.class));
 //            contactList.add(new Contact("omar" , "" + random.nextInt()));
 //            contactAdapter.notifyDataSetChanged();
@@ -57,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == LAUNCH_SECOND_ACTIVITY) {
-            if (resultCode == Activity.RESULT_OK) {
+        if (requestCode == ADD_REQUEST_CODE) {
+            if ( requestCode == ADD_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
                  contactList.add((Contact) data.getSerializableExtra("contact"));
                  contactAdapter.notifyDataSetChanged();
             }
