@@ -13,7 +13,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class AddItemActivity extends AppCompatActivity {
 
     EditText edName, edNumber;
-    String name, number;
     FloatingActionButton floatingActionButton;
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -21,8 +20,10 @@ public class AddItemActivity extends AppCompatActivity {
             Contact contact = checkForError(edName.getText().toString(), edNumber.getText().toString());
             if (contact != null) {
                 Intent resault_Intent = new Intent();
-                resault_Intent.putExtra("contact" , contact);
-                setResult(Activity.RESULT_OK , resault_Intent);
+                resault_Intent.putExtra("contact", contact);
+                int position_of_comming_item = getIntent().getIntExtra("position", 0);
+                resault_Intent.putExtra("position", position_of_comming_item);
+                setResult(Activity.RESULT_OK, resault_Intent);
                 finish();
             }
         }
@@ -35,9 +36,11 @@ public class AddItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_item_layout);
         //find all ids in 1 method
         myFindById();
-//        name = edName.getText().toString();
-//        number = edNumber.getText().toString();
-
+        if (getIntent().hasExtra("contact")) {
+            Contact contact = (Contact) getIntent().getSerializableExtra("contact");
+            edName.setText(contact.getName());
+            edNumber.setText(contact.getNumber());
+        }
         //onclick
         floatingActionButton.setOnClickListener(onClickListener);
 
@@ -45,13 +48,13 @@ public class AddItemActivity extends AppCompatActivity {
 
     private void myFindById() {
         edName = findViewById(R.id.edName);
-        edNumber= findViewById(R.id.edNumber);
+        edNumber = findViewById(R.id.edNumber);
         floatingActionButton = findViewById(R.id.btnFabDone);
     }
 
     private Contact checkForError(String name, String number) { //if you add img add error detect for it
         boolean allIsFine = true;
-        if ( name == null || name.isEmpty()) {
+        if (name == null || name.isEmpty()) {
             edName.setError("Enter A Name!");
             allIsFine = false;
         }
