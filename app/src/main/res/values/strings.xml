@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">recyler test 1</string>
+    <string name="name">Name</string>
+    <string name="number">Number</string>
+</resources>
