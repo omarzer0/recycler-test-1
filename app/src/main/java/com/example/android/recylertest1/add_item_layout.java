@@ -9,7 +9,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
+// The activity name should be AddItemActivity 
 public class add_item_layout extends AppCompatActivity {
 
     EditText edName, edNumber;
