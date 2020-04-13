@@ -21,8 +21,7 @@ public class AddItemActivity extends AppCompatActivity {
             if (contact != null) {
                 Intent resault_Intent = new Intent();
                 resault_Intent.putExtra("contact", contact);
-                int position_of_comming_item = getIntent().getIntExtra("position", 0);
-                resault_Intent.putExtra("position", position_of_comming_item);
+                resault_Intent.putExtra("position", getIntent().getIntExtra("position", 0));
                 setResult(Activity.RESULT_OK, resault_Intent);
                 finish();
             }

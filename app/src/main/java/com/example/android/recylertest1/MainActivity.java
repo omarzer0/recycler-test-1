@@ -34,8 +34,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void delete(Contact contact) {
             contactList.remove(contact);
-            contactAdapter.notifyDataSetChanged();
+            ArrayList<Contact> tempArrayList = new ArrayList<>(contactList);
+            contactAdapter.submitList(tempArrayList);
         }
+
     };
     ContactAdapter contactAdapter = new ContactAdapter(onContactClickListener);
     ArrayList<Contact> contactList = new ArrayList<>();
@@ -57,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
         myFindById();
 
         recyclerView.setAdapter(contactAdapter);
-        contactAdapter.contactArrayList = contactList;
-
         btnFloatingAction.setOnClickListener(onClickListener);
 
 
@@ -75,10 +75,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == ADD_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             contactList.add((Contact) data.getSerializableExtra("contact"));
-            contactAdapter.notifyDataSetChanged();
+            ArrayList<Contact> tempArrayList = new ArrayList<>(contactList);
+            contactAdapter.submitList(tempArrayList);
         } else if (requestCode == EDIT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             contactList.set(data.getIntExtra("position", 0), (Contact) data.getSerializableExtra("contact"));
-            contactAdapter.notifyDataSetChanged();
+            ArrayList<Contact> tempArrayList = new ArrayList<>(contactList);
+            contactAdapter.submitList(tempArrayList);
         }
     }
 }

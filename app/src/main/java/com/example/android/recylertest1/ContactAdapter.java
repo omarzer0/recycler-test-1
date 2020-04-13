@@ -7,18 +7,37 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> {
+public class ContactAdapter extends ListAdapter<Contact,ContactAdapter.ContactViewHolder> {
 
-    ArrayList<Contact> contactArrayList = new ArrayList<>();
-    private OnContactClickListener onItemClickListener;
+    private OnContactClickListener onContactClickListener;
+    private static DiffUtil.ItemCallback<Contact> diffCallback = new DiffUtil.ItemCallback<Contact>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Contact oldItem, @NonNull Contact newItem) {
+            return oldItem.getNumber().equals(newItem.getNumber());
+        }
 
-    public ContactAdapter(OnContactClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
+        @Override
+        public boolean areContentsTheSame(@NonNull Contact oldItem, @NonNull Contact newItem) {
+            return oldItem.getName().equals(newItem.getName())
+                    &&
+                    oldItem.getNumber().equals(newItem.getNumber());
+        }
+    };
+
+    protected ContactAdapter(OnContactClickListener onContactClickListener) {
+        super(diffCallback);
+        this.onContactClickListener = onContactClickListener;
     }
+
+//    public ContactAdapter(OnContactClickListener onItemClickListener) {
+//        this.onItemClickListener = onItemClickListener;
+//    }
 
     @NonNull
     @Override
@@ -29,24 +48,20 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
 
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, final int position) {
-        holder.onBind(contactArrayList.get(position));
+        holder.onBind(getItem(position));
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onItemClickListener.onClick(contactArrayList.get(position), position);
+                onContactClickListener.onClick(getItem(position), position);
             }
         });
         holder.deleteImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onItemClickListener.delete(contactArrayList.get(position));
+                onContactClickListener.delete(getItem(position));
             }
         });
-    }
-
-    @Override
-    public int getItemCount() {
-        return contactArrayList.size();
     }
 
     //interface
