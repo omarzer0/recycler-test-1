@@ -64,6 +64,7 @@ public class ContactAdapter extends ListAdapter<Contact,ContactAdapter.ContactVi
         });
     }
 
+
     //interface
     interface OnContactClickListener {
         void onClick(Contact contact);
