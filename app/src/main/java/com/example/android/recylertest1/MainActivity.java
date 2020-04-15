@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(Contact contact) {
             intent = new Intent(MainActivity.this, AddItemActivity.class);
-            intent.putExtra("position", contactList.indexOf(contact));
+            intent.putExtra("position", list.indexOf(contact));
             intent.putExtra("contact", contact);
             startActivityForResult(intent, EDIT_REQUEST_CODE);
         }
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     };
     ContactAdapter contactAdapter = new ContactAdapter(onContactClickListener);
-    ArrayList<Contact> contactList = new ArrayList<>();
+//    ArrayList<Contact> contactList = new ArrayList<>();
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
