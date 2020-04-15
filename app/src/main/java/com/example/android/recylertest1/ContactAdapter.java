@@ -49,26 +49,26 @@ public class ContactAdapter extends ListAdapter<Contact,ContactAdapter.ContactVi
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, final int position) {
         holder.onBind(getItem(position));
-
+        final Contact contact = getItem(position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onContactClickListener.onClick(getItem(position), position);
+                onContactClickListener.onClick(contact);
             }
         });
         holder.deleteImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onContactClickListener.delete(getItem(position));
+                onContactClickListener.delete(contact);
             }
         });
     }
 
     //interface
     interface OnContactClickListener {
-        void onClick(Contact contact, int position);
+        void onClick(Contact contact);
 
-        void delete(Contact contact);
+        void delete(Contact contact );
     }
 
 

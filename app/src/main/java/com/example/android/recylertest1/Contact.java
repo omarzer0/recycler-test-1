@@ -1,16 +1,29 @@
 package com.example.android.recylertest1;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.OnConflictStrategy;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 
+@Entity
 public class Contact implements Serializable {
-    private String name, number;
+    @NonNull
+    @PrimaryKey
+    @ColumnInfo(name = "Contact_Name")
+    private String name;
+    @ColumnInfo(name = "Contact_Number")
+    private String number;
+    @ColumnInfo(name = "Contact_Image")
     private int imgResource;
 
-    public Contact(String name, String number, int imgResource) {
-        this.name = name;
-        this.number = number;
-        this.imgResource = imgResource;
-    }
+//    public Contact(String name, String number, int imgResource) {
+//        this.name = name;
+//        this.number = number;
+//        this.imgResource = imgResource;
+//    }
 
     public Contact(String name, String number) {
         this.name = name;
