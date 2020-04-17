@@ -3,12 +3,11 @@ package com.example.android.recylertest1;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.OnConflictStrategy;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-@Entity
+@Entity(tableName = "Contacts")
 public class Contact implements Serializable {
     @NonNull
     @PrimaryKey

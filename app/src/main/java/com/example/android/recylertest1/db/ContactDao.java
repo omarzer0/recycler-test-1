@@ -13,7 +13,7 @@ import java.util.List;
 
 @Dao
 public interface ContactDao {
-    @Query("SELECT * FROM Contact")
+    @Query("SELECT * FROM Contacts")
     List<Contact> getContactsList();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
