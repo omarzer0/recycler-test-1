@@ -10,9 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.recylertest1.db.AppDatabase;
+import com.example.android.recylertest1.threads.AddContactThread;
+import com.example.android.recylertest1.threads.ContactThread;
+import com.example.android.recylertest1.threads.DeleteContactThread;
+import com.example.android.recylertest1.threads.UpdateContactThread;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,35 +23,42 @@ public class MainActivity extends AppCompatActivity {
     final int ADD_REQUEST_CODE = 1;
     final int EDIT_REQUEST_CODE = 2;
     Intent intent;
-
     AppDatabase db;
-    List<Contact> list;
-
     FloatingActionButton btnFloatingAction;
     RecyclerView recyclerView;
 
+    ContactThread.ContactCallback submitListCallback = new ContactThread.ContactCallback() {
+        @Override
+        public void getContactsList(List<Contact> contactsList) {
+            contactAdapter.submitList(contactsList);
+        }
+    };
+
+
     ContactAdapter.OnContactClickListener onContactClickListener = new ContactAdapter.OnContactClickListener() {
         @Override
-        public void onClick(Contact contact) {
-            intent = new Intent(MainActivity.this, AddItemActivity.class);
-            intent.putExtra("position", list.indexOf(contact));
-            intent.putExtra("contact", contact);
-            startActivityForResult(intent, EDIT_REQUEST_CODE);
+        public void onClick(final Contact contact) {
+            // contact thread has the list of contacts
+            ContactThread contactThread = new ContactThread(db, new ContactThread.ContactCallback() {
+                @Override
+                public void getContactsList(List<Contact> contactsList) {
+                    intent = new Intent(MainActivity.this, AddItemActivity.class);
+                    intent.putExtra("position", contactsList.indexOf(contact));
+                    intent.putExtra("contact", contact);
+                    startActivityForResult(intent, EDIT_REQUEST_CODE);
+                }
+            });
+            contactThread.execute();
         }
 
         @Override
-        public void delete(Contact contact) {
-//            contactList.remove(contact);
-//            ArrayList<Contact> tempArrayList = new ArrayList<>(contactList);
-//            contactAdapter.submitList(tempArrayList);
-            db.contactDao().deleteContact(contact);
-            list = db.contactDao().getContactsList();
-            contactAdapter.submitList(list);
+        public void delete(final Contact contact) {
+            DeleteContactThread deleteContactThread = new DeleteContactThread(db, submitListCallback);
+            deleteContactThread.execute(contact);
         }
 
     };
     ContactAdapter contactAdapter = new ContactAdapter(onContactClickListener);
-//    ArrayList<Contact> contactList = new ArrayList<>();
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -66,13 +76,8 @@ public class MainActivity extends AppCompatActivity {
 
         //add database
         db = AppDatabase.getInstance(this);
-
-        list = db.contactDao().getContactsList();
-//        list.add(new Contact("omar" , "101010"));
-//        list.add(new Contact("omar" , "101010"));
-//        list.add(new Contact("omar" , "101010"));
-//        contactList.addAll(list);
-        contactAdapter.submitList(list);
+        ContactThread contactThread = new ContactThread(db, submitListCallback);
+        contactThread.execute();
 
         //find views by id
         btnFloatingAction = findViewById(R.id.btnFabAdd);
@@ -86,24 +91,16 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == ADD_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-//            contactList.add((Contact) data.getSerializableExtra("contact"));
-//            ArrayList<Contact> tempArrayList = new ArrayList<>(contactList);
-//            contactAdapter.submitList(tempArrayList);
-            db.contactDao().InsertContact((Contact) data.getSerializableExtra("contact"));
-            list = db.contactDao().getContactsList();
-//            contactList.addAll(list);
-            contactAdapter.submitList(list);
-        }
-
-
-        else if (requestCode == EDIT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-//            contactList.set(data.getIntExtra("position", 0), (Contact) data.getSerializableExtra("contact"));
-//            ArrayList<Contact> tempArrayList = new ArrayList<>(contactList);
-//            contactAdapter.submitList(tempArrayList);
-            db.contactDao().updateContact((Contact) data.getSerializableExtra("contact"));
-//            list.set(data.getIntExtra("position", 0) , (Contact) data.getSerializableExtra("contact"));
-            list = db.contactDao().getContactsList();
-            contactAdapter.submitList(list);
+            AddContactThread addContactThread = new AddContactThread(db, submitListCallback);
+            addContactThread.execute((Contact) data.getSerializableExtra("contact"));
+        } else if (requestCode == EDIT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            UpdateContactThread updateContactThread = new UpdateContactThread(db, new ContactThread.ContactCallback() {
+                @Override
+                public void getContactsList(List<Contact> contactsList) {
+                    contactAdapter.submitList(contactsList);
+                }
+            });
+            updateContactThread.execute((Contact) data.getSerializableExtra("contact"));
         }
     }
 }

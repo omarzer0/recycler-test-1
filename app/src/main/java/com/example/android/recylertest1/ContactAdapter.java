@@ -11,15 +11,13 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-
-public class ContactAdapter extends ListAdapter<Contact,ContactAdapter.ContactViewHolder> {
+public class ContactAdapter extends ListAdapter<Contact, ContactAdapter.ContactViewHolder> {
 
     private OnContactClickListener onContactClickListener;
     private static DiffUtil.ItemCallback<Contact> diffCallback = new DiffUtil.ItemCallback<Contact>() {
         @Override
         public boolean areItemsTheSame(@NonNull Contact oldItem, @NonNull Contact newItem) {
-            return oldItem.getNumber().equals(newItem.getNumber());
+            return oldItem.getName().equals(newItem.getName());
         }
 
         @Override
@@ -69,7 +67,7 @@ public class ContactAdapter extends ListAdapter<Contact,ContactAdapter.ContactVi
     interface OnContactClickListener {
         void onClick(Contact contact);
 
-        void delete(Contact contact );
+        void delete(Contact contact);
     }
 
 
