@@ -1,5 +1,14 @@
 <resources>
-    <string name="app_name">recyler test 1</string>
+    <string name="app_name">Note App</string>
     <string name="name">Name</string>
     <string name="number">Number</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="confirm_password">confirm password</string>
+    <string name="you_ar_successfully_logged_in">You ar successfully logged in</string>
+    <string name="log_out">log out</string>
+    <string name="login">login</string>
+    <string name="sign_up">sign up</string>
+    <string name="already_have_account">already have account ?</string>
+    <string name="do_not_have_account_yet">do not have account yet?</string>
 </resources>
